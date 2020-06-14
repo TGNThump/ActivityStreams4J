@@ -1,6 +1,7 @@
 package social.pantheon.activitystreams4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import cz.cvut.kbss.jsonld.ConfigParam;
 import cz.cvut.kbss.jsonld.jackson.JsonLdModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +18,9 @@ public class AbstractSerdesTest {
         mapper = new ObjectMapper();
         mapper.registerModule(new JsonLdModule()
             .configure(ConfigParam.SCAN_PACKAGE, "social.pantheon.activitystreams4j")
-            .configure(ConfigParam.REQUIRE_ID, "true")
+            .configure(ConfigParam.REQUIRE_ID, "false")
         );
+        mapper.registerModule(new JavaTimeModule());
     }
 
     protected String write(Object object) throws Exception {
