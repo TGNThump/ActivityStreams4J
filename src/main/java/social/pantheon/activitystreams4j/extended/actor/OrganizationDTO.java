@@ -4,11 +4,11 @@ import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import social.pantheon.activitystreams4j.core.ObjectDTO;
+import social.pantheon.activitystreams4j.activitypub.ActorDTO;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @OWLClass(iri = "https://www.w3.org/ns/activitystreams#Organization")
-public class OrganizationDTO extends ObjectDTO {
+public class OrganizationDTO extends ActorDTO {
 }

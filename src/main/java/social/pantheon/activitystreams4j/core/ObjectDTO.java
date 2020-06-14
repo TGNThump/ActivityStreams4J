@@ -205,4 +205,29 @@ public class ObjectDTO {
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#updated")
     ZonedDateTime updated;
+
+    /**
+     * The source property is intended to convey some sort of source from which the content markup was derived, as a form of provenance, or to support future editing by clients.
+     * In general, clients do the conversion from source to content, not the other way around.
+     *
+     * The value of source is itself an object which uses its own content and mediaType fields to supply source information.
+     */
+    @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#source")
+    Object source;
+
+    /**
+     * This is a list of all Announce activities with this object as the object property, added as a side effect.
+     *
+     * The shares collection MUST be either an OrderedCollection or a Collection and MAY be filtered on privileges of an authenticated user or as appropriate when no authentication is given.
+     */
+    @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#shares")
+    Object shares;
+
+    /**
+     * This is a list of all Like activities with this object as the object property, added as a side effect.
+     *
+     * The likes collection MUST be either an OrderedCollection or a Collection and MAY be filtered on privileges of an authenticated user or as appropriate when no authentication is given.
+     */
+    @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#likes")
+    Object likes;
 }
