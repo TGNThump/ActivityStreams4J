@@ -43,6 +43,12 @@ public class ObjectDTO {
     Set<Object> audience;
 
     /**
+     * Identifies an entity considered to be part of the public primary audience of an Object
+     */
+    @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#to")
+    Set<Object> to;
+
+    /**
      * Identifies one or more Objects that are part of the private secondary audience of this Object.
      */
     @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#bcc")
@@ -119,12 +125,6 @@ public class ObjectDTO {
      */
     @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#tag")
     Set<Object> tag;
-
-    /**
-     * Identifies an entity considered to be part of the public primary audience of an Object
-     */
-    @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#to")
-    Object to;
 
     /**
      * Identifies one or more links to representations of the object

@@ -164,6 +164,8 @@ public class W3CTests extends AbstractSerdesTest{
             String name = example.select(".example-title").text();
             String json = fixes.getOrDefault(name, example.select(".json").text());
 
+            if (json.isEmpty()) return null;
+
             String url = example.baseUri() + "#" + id;
 
             try {
@@ -200,7 +202,7 @@ public class W3CTests extends AbstractSerdesTest{
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }).filter(Objects::nonNull);
     }
 
 //    @TestFactory
