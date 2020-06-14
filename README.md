@@ -4,4 +4,4 @@
 
 **ActivityStreams4J** is a Java library consisting of DTOs for the [W3C ActivityStreams 2.0](https://www.w3.org/TR/activitystreams-core/) specification.
 
-These DTOs are annotated with [Java OWL Persistence API (JOPA)](https://kbss.felk.cvut.cz/web/kbss/jopa) annotations, designed to work with [Java Binding for JSON-LD](https://github.com/kbss-cvut/jb4jsonld) and tested against the W3C [ActivityStreams Test Documents](https://github.com/w3c/activitystreams/tree/master/test).
+These DTOs are annotated with [Java OWL Persistence API (JOPA)](https://kbss.felk.cvut.cz/web/kbss/jopa) annotations, designed to work with [Java Binding for JSON-LD](https://github.com/kbss-cvut/jb4jsonld) and automatically tested against the example inputs from the W3C technical reports for [ActivityStreams Core](https://www.w3.org/TR/activitystreams-core/), [ActivityStreams Vocabulary](https://www.w3.org/TR/activitystreams-vocabulary/) and [ActivityPub](https://www.w3.org/TR/activitypub/).
