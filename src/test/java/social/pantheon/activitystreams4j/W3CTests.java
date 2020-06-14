@@ -81,7 +81,7 @@ public class W3CTests extends AbstractSerdesTest{
                 case '(':
                 case '[':
                     prettyResult.append(createSequence(AnsiEscape.DEFAULT));
-                    newLineIndent += "   ";
+                    newLineIndent += "    ";
                     prettyResult.append(current);
                     prettyResult.append(newLineIndent);
 
@@ -99,7 +99,7 @@ public class W3CTests extends AbstractSerdesTest{
                     break;
                 case ')':
                 case ']':
-                    newLineIndent = newLineIndent.substring(0, newLineIndent.length() - 1);
+                    newLineIndent = newLineIndent.substring(0, newLineIndent.length() - 4);
                     prettyResult.append(newLineIndent);
                     prettyResult.append(current);
                     break;
