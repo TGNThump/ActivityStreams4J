@@ -25,12 +25,14 @@ public class W3CTests extends AbstractSerdesTest{
 
     @TestFactory
     Stream<DynamicTest> W3CActivityStreamsVocabularyExamples() throws IOException {
-        // Fixes based on https://github.com/w3c/activitystreams/blob/master/ERRATA.md
         Map<String, String> fixes = new HashMap<>();
 
+        // Fixes based on https://github.com/w3c/activitystreams/blob/master/ERRATA.md
         fixes.put("Example 150", "{\"@context\": \"https://www.w3.org/ns/activitystreams\",\"type\": \"Place\",\"name\": \"San Francisco, CA\",\"longitude\": 122.4167,\"latitude\": 37.7833}");
         fixes.put("Example 80", "{\"@context\": \"https://www.w3.org/ns/activitystreams\",\"summary\": \"A simple note\",\"type\": \"Note\",\"content\": \"A simple note\",\"icon\": [{\"type\": \"Image\",\"summary\": \"Note (16x16)\",\"url\": {\"type\": \"Link\",\"href\": \"http://example.org/note1.png\",\"width\": 16,\"height\": 16}},{\"type\": \"Image\",\"summary\": \"Note (32x32)\",\"url\": {\"type\": \"Link\",\"href\": \"http://example.org/note2.png\",\"width\": 32,\"height\": 32}}]}");
         fixes.put("Example 58", "{\"@context\": \"https://www.w3.org/ns/activitystreams\",\"type\": \"Mention\",\"href\": \"http://example.org/joe\",\"name\": \"Joe\"}");
+        // https://github.com/w3c/activitystreams/issues/439
+        fixes.put("Example 79", "{\"@context\" : \"https://www.w3.org/ns/activitystreams\",\"summary\" : \"A simple note\",\"type\" : \"Note\",\"content\" : \"This is all there is.\",\"icon\" : {  \"type\" : \"Image\",  \"name\" : \"Note icon\",  \"url\" : \"http://example.org/note.png\"}\n}");
 
         return testExamplesFromW3CTechnicalReport("https://www.w3.org/TR/activitystreams-vocabulary/", fixes);
     }
