@@ -11,6 +11,8 @@ import social.pantheon.activitystreams4j.core.LinkDTO;
 import social.pantheon.activitystreams4j.core.ObjectDTO;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -56,19 +58,23 @@ public class W3CTests extends AbstractSerdesTest{
 
             String url = example.baseUri() + "#" + id;
 
-            return DynamicTest.dynamicTest(name + " (" + id + ")", () -> {
-                JsonNode tree = mapper.readTree(json);
+            try {
+                return DynamicTest.dynamicTest(name + " (" + id + ")", new URI(url), () -> {
+                    JsonNode tree = mapper.readTree(json);
 
-                log.info("Testing \"{}\" ({})\n{}", name, url, tree.toPrettyString());
+                    log.info("Testing \"{}\" ({})\n{}", name, url, tree.toPrettyString());
 
-                if (tree.has("type") && (tree.get("type").asText().equals("Link") || tree.get("type").asText().equals("Mention"))){
-                    Object result = mapper.readerFor(LinkDTO.class).readValue(json);
-                    log.info(result);
-                } else {
-                    Object result = mapper.readerFor(ObjectDTO.class).readValue(json);
-                    log.info(result);
-                }
-            });
+                    if (tree.has("type") && (tree.get("type").asText().equals("Link") || tree.get("type").asText().equals("Mention"))){
+                        Object result = mapper.readerFor(LinkDTO.class).readValue(json);
+                        log.info(result);
+                    } else {
+                        Object result = mapper.readerFor(ObjectDTO.class).readValue(json);
+                        log.info(result);
+                    }
+                });
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

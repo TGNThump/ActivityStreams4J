@@ -26,7 +26,7 @@ jobs:
           java-version: 11
       - name: Build with Maven
         run: mvn -B test --file pom.xml
-      - uses: ashley-taylor/junit-report-annotations-action@master
+      - uses: tgnthump/junit-report-annotations-action@master
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
         if: always()
