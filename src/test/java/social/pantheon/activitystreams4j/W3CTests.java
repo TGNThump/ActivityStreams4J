@@ -27,12 +27,14 @@ public class W3CTests extends AbstractSerdesTest{
     Stream<DynamicTest> W3CActivityStreamsVocabularyExamples() throws IOException {
         Map<String, String> fixes = new HashMap<>();
 
-        // Fixes based on https://github.com/w3c/activitystreams/blob/master/ERRATA.md
+        // https://github.com/w3c/activitystreams/blob/master/ERRATA.md
         fixes.put("Example 150", "{\"@context\": \"https://www.w3.org/ns/activitystreams\",\"type\": \"Place\",\"name\": \"San Francisco, CA\",\"longitude\": 122.4167,\"latitude\": 37.7833}");
         fixes.put("Example 80", "{\"@context\": \"https://www.w3.org/ns/activitystreams\",\"summary\": \"A simple note\",\"type\": \"Note\",\"content\": \"A simple note\",\"icon\": [{\"type\": \"Image\",\"summary\": \"Note (16x16)\",\"url\": {\"type\": \"Link\",\"href\": \"http://example.org/note1.png\",\"width\": 16,\"height\": 16}},{\"type\": \"Image\",\"summary\": \"Note (32x32)\",\"url\": {\"type\": \"Link\",\"href\": \"http://example.org/note2.png\",\"width\": 32,\"height\": 32}}]}");
         fixes.put("Example 58", "{\"@context\": \"https://www.w3.org/ns/activitystreams\",\"type\": \"Mention\",\"href\": \"http://example.org/joe\",\"name\": \"Joe\"}");
         // https://github.com/w3c/activitystreams/issues/439
         fixes.put("Example 79", "{\"@context\" : \"https://www.w3.org/ns/activitystreams\",\"summary\" : \"A simple note\",\"type\" : \"Note\",\"content\" : \"This is all there is.\",\"icon\" : {  \"type\" : \"Image\",  \"name\" : \"Note icon\",  \"url\" : \"http://example.org/note.png\"}\n}");
+        // https://github.com/w3c/activitystreams/issues/448
+        fixes.put("Example 157", "{\"@context\": \"https://www.w3.org/ns/activitystreams\",\"name\": \"A thank-you note\",\"type\": \"Note\",\"content\": \"Thank you <a href='http://sally.example.org'>@sally</a><br/>for all your hard work!<br/><a href='http://example.org/tags/givingthanks'>#givingthanks</a>\",\"to\": {  \"name\": \"Sally\",  \"type\": \"Person\",  \"id\": \"http://sally.example.org\"},\"tag\": {  \"id\": \"http://example.org/tags/givingthanks\",  \"name\": \"#givingthanks\"}}");
 
         return testExamplesFromW3CTechnicalReport("https://www.w3.org/TR/activitystreams-vocabulary/", fixes);
     }
@@ -167,13 +169,14 @@ public class W3CTests extends AbstractSerdesTest{
             try {
                 return DynamicTest.dynamicTest(name + " (" + id + ")", new URI(url), () -> {
                     JsonNode tree = mapper.readTree(json);
-
-                    String expanded = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(JsonLdProcessor.expand(mapper.readValue(json, Object.class)));
-
                     log(
                         AnsiEscape.YELLOW, "Testing ", name, " (", url, "):", AnsiEscape.DEFAULT, lineSeparator(), lineSeparator(),
                             AnsiEscape.YELLOW, "Input JSON-LD", AnsiEscape.DEFAULT, lineSeparator(),
-                            tree.toPrettyString(), lineSeparator(), lineSeparator(),
+                            tree.toPrettyString(), lineSeparator(), lineSeparator()
+                    );
+
+                    String expanded = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(JsonLdProcessor.expand(mapper.readValue(json, Object.class)));
+                    log(
                             AnsiEscape.YELLOW, "Expanded JSON-LD", AnsiEscape.DEFAULT, lineSeparator(),
                             expanded, lineSeparator()
                     );
