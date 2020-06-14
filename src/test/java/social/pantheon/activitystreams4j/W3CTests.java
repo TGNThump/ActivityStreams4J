@@ -2,6 +2,8 @@ package social.pantheon.activitystreams4j;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.jsonldjava.core.JsonLdProcessor;
+import com.github.jsonldjava.shaded.com.google.common.collect.HashMultiset;
+import com.github.jsonldjava.shaded.com.google.common.collect.Multiset;
 import org.apache.logging.log4j.core.pattern.AnsiEscape;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,8 +16,7 @@ import social.pantheon.activitystreams4j.core.ObjectDTO;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.lang.System.lineSeparator;
@@ -71,22 +72,36 @@ public class W3CTests extends AbstractSerdesTest{
     private String prettyPrintDTO(Object result) {
         StringBuilder prettyResult = new StringBuilder();
         String newLineIndent = System.lineSeparator();
-        char[] charArray = result.toString().toCharArray();
+        String string = result.toString();
+
+        int superOffset = 0;
+        Multiset<Integer> superIndentSizes = HashMultiset.create();
 
         prettyResult.append(createSequence(AnsiEscape.YELLOW));
-        outer: for (int i = 0; i < charArray.length; i++) {
-            char current = charArray[i];
-            char lookAhead = i+1 < charArray.length ? charArray[i+1] : ' ';
+        outer: for (int i = 0; i < string.length(); i++) {
+            char current = string.charAt(i);
             switch (current) {
+                case 's':
+                    if (i + 6 < string.length() && string.subSequence(i, i+6).equals("super=")){
+                        superOffset += 4;
+                        superIndentSizes.add(newLineIndent.length() + superOffset);
+                        while (string.charAt(i) != '(') i++;
+                    } else {
+                        prettyResult.append(current);
+                    }
+
+                    break;
                 case '(':
                 case '[':
                     prettyResult.append(createSequence(AnsiEscape.DEFAULT));
-                    newLineIndent += "    ";
                     prettyResult.append(current);
+                    newLineIndent += "    ";
+
                     prettyResult.append(newLineIndent);
 
-                    inner: for (int j = i+1; j < charArray.length; j++){
-                        switch (charArray[j]){
+                    // Add yellow colour for object arrays
+                    inner: for (int j = i+1; j < string.length(); j++){
+                        switch (string.charAt(j)){
                             case '[':
                             case '=':
                                 break inner;
@@ -99,42 +114,41 @@ public class W3CTests extends AbstractSerdesTest{
                     break;
                 case ')':
                 case ']':
-                    newLineIndent = newLineIndent.substring(0, newLineIndent.length() - 4);
+                    if ( current == ']' || !superIndentSizes.remove(newLineIndent.length() + superOffset)) {
+                        newLineIndent = newLineIndent.substring(0, Math.max(0, newLineIndent.length() - 4));
+                    } else {
+                        superOffset -= 4;
+                        if (string.charAt(i+1) == ' ') i++;
+                        break;
+                    }
                     prettyResult.append(newLineIndent);
                     prettyResult.append(current);
+                    prettyResult.append(createSequence(AnsiEscape.DEFAULT));
                     break;
                 case ',':
-                    prettyResult.append(current);
-
-                    for (int j = i+1; j < charArray.length; j++){
-                        if (charArray[j] == '=') break;
-                        if (charArray[j] == ',') continue outer;
+                    for (int j = i+1; j < string.length(); j++){
+                        if (string.charAt(j) == '=') break;
+                        if (string.charAt(j) == ',') continue outer;
                     }
 
                     prettyResult.append(newLineIndent);
-                    if (lookAhead == ' ') i++;
-                    break;
-                case '=':
-                    prettyResult.append(current);
 
-                    inner: for (int j = i+1; j < charArray.length; j++){
-                        switch (charArray[j]){
-                            case '[':
-                            case '=':
-                                break inner;
-                            case '(':
-                                prettyResult.append(createSequence(AnsiEscape.YELLOW));
-                                break inner;
-                        }
+                    if (i+1 >= string.length() || string.charAt(i+1) == ' ') i++;
+
+                    for (int j = i+1; j < string.length(); j++){
+                        if (string.charAt(j) == '(') break;
+                        if (string.charAt(j) == '[') continue outer;
+                        if (string.charAt(j) == '=') continue outer;
                     }
 
+                    prettyResult.append(createSequence(AnsiEscape.YELLOW));
                     break;
                 default:
                     prettyResult.append(current);
                     break;
             }
         }
-        return prettyResult.toString().replaceAll("\\s*[a-zA-Z]+=null,?", "");
+        return prettyResult.toString().replaceAll("\\s*[a-zA-Z]+=null", "");
     }
 
     private Stream<DynamicTest> testExamplesFromW3CTechnicalReport(String baseUrl, Map<String, String> fixes) throws IOException {
@@ -157,7 +171,7 @@ public class W3CTests extends AbstractSerdesTest{
                     log(
                         AnsiEscape.YELLOW, "Testing ", name, " (", url, "):", AnsiEscape.DEFAULT, lineSeparator(), lineSeparator(),
                             AnsiEscape.YELLOW, "Input JSON-LD", AnsiEscape.DEFAULT, lineSeparator(),
-                            tree.toPrettyString(), lineSeparator(),
+                            tree.toPrettyString(), lineSeparator(), lineSeparator(),
                             AnsiEscape.YELLOW, "Expanded JSON-LD", AnsiEscape.DEFAULT, lineSeparator(),
                             expanded, lineSeparator()
                     );
