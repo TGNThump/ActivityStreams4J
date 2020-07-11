@@ -1,7 +1,9 @@
 package social.pantheon.activitystreams4j.extended.activity;
 
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
+import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
 import cz.cvut.kbss.jopa.model.annotations.OWLObjectProperty;
+import cz.cvut.kbss.jopa.model.annotations.Types;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -36,6 +38,6 @@ public class QuestionDTO extends IntransitiveActivityDTO {
     /**
      * Indicates that a question has been closed, and answers are no longer accepted.
      */
-    @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#closed")
+    @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#closed")
     Object closed;
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 
 import javax.xml.datatype.Duration;
 import java.net.URI;
-import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.Set;
 
 @Data
@@ -177,20 +177,20 @@ public class ObjectDTO {
      * When used with an Activity object, for instance, the endTime property specifies the moment the activity concluded or is expected to conclude.
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#endTime")
-    ZonedDateTime endTime;
+    Temporal endTime;
 
     /**
      * The date and time at which the object was published
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#published")
-    ZonedDateTime published;
+    Temporal published;
 
     /**
      * The date and time describing the actual or expected starting time of the object.
      * When used with an Activity object, for instance, the startTime property specifies the moment the activity began or is scheduled to begin.
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#startTime")
-    ZonedDateTime startTime;
+    Temporal startTime;
 
     /**
      * A natural language summarization of the object encoded as HTML.
@@ -204,7 +204,7 @@ public class ObjectDTO {
      * The date and time at which the object was updated
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#updated")
-    ZonedDateTime updated;
+    Temporal updated;
 
     /**
      * The source property is intended to convey some sort of source from which the content markup was derived, as a form of provenance, or to support future editing by clients.

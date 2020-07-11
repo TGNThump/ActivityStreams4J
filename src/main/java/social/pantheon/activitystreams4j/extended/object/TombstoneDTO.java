@@ -9,6 +9,7 @@ import lombok.ToString;
 import social.pantheon.activitystreams4j.core.ObjectDTO;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -26,5 +27,5 @@ public class TombstoneDTO extends ObjectDTO {
      * On a Tombstone object, the deleted property is a timestamp for when the object was deleted.
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#deleted")
-    ZonedDateTime deleted;
+    Temporal deleted;
 }
