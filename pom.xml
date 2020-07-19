@@ -41,7 +41,7 @@
         <dependency>
             <groupId>cz.cvut.kbss.jsonld</groupId>
             <artifactId>jb4jsonld-jackson</artifactId>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>

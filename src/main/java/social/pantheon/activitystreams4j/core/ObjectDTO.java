@@ -213,7 +213,7 @@ public class ObjectDTO {
      * The value of source is itself an object which uses its own content and mediaType fields to supply source information.
      */
     @OWLObjectProperty(iri = "https://www.w3.org/ns/activitystreams#source")
-    Object source;
+    ObjectDTO source;
 
     /**
      * This is a list of all Announce activities with this object as the object property, added as a side effect.
