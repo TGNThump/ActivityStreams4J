@@ -35,6 +35,10 @@ public class W3CTests extends AbstractSerdesTest{
         fixes.put("Example 79", "{\"@context\" : \"https://www.w3.org/ns/activitystreams\",\"summary\" : \"A simple note\",\"type\" : \"Note\",\"content\" : \"This is all there is.\",\"icon\" : {  \"type\" : \"Image\",  \"name\" : \"Note icon\",  \"url\" : \"http://example.org/note.png\"}\n}");
         // https://github.com/w3c/activitystreams/issues/448
         fixes.put("Example 157", "{\"@context\": \"https://www.w3.org/ns/activitystreams\",\"name\": \"A thank-you note\",\"type\": \"Note\",\"content\": \"Thank you <a href='http://sally.example.org'>@sally</a><br/>for all your hard work!<br/><a href='http://example.org/tags/givingthanks'>#givingthanks</a>\",\"to\": {  \"name\": \"Sally\",  \"type\": \"Person\",  \"id\": \"http://sally.example.org\"},\"tag\": {  \"id\": \"http://example.org/tags/givingthanks\",  \"name\": \"#givingthanks\"}}");
+        // https://github.com/w3c/activitystreams/issues/496
+        fixes.put("Example 75", "{\"@context\":\"https://www.w3.org/ns/activitystreams\",\"summary\":\"Sally's blog posts\",\"type\":\"Collection\",\"totalItems\":3,\"current\":{\"type\":\"Link\",\"href\":\"http://example.org/collection\"},\"items\":[\"http://example.org/posts/1\",\"http://example.org/posts/2\",\"http://example.org/posts/3\"]}");
+        fixes.put("Example 77", "{\"@context\":\"https://www.w3.org/ns/activitystreams\",\"summary\":\"Sally's blog posts\",\"type\":\"Collection\",\"totalItems\":3,\"first\":{\"type\":\"Link\",\"href\":\"http://example.org/collection?page=0\"}}");
+        fixes.put("Example 87", "{\"@context\":\"https://www.w3.org/ns/activitystreams\",\"summary\":\"A collection\",\"type\":\"Collection\",\"totalItems\":5,\"last\":{\"type\":\"Link\",\"href\":\"http://example.org/collection?page=1\"}}");
 
         return testExamplesFromW3CTechnicalReport("https://www.w3.org/TR/activitystreams-vocabulary/", fixes);
     }
