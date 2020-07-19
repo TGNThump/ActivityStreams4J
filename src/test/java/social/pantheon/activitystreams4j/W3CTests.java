@@ -39,6 +39,8 @@ public class W3CTests extends AbstractSerdesTest{
         fixes.put("Example 75", "{\"@context\":\"https://www.w3.org/ns/activitystreams\",\"summary\":\"Sally's blog posts\",\"type\":\"Collection\",\"totalItems\":3,\"current\":{\"type\":\"Link\",\"href\":\"http://example.org/collection\"},\"items\":[\"http://example.org/posts/1\",\"http://example.org/posts/2\",\"http://example.org/posts/3\"]}");
         fixes.put("Example 77", "{\"@context\":\"https://www.w3.org/ns/activitystreams\",\"summary\":\"Sally's blog posts\",\"type\":\"Collection\",\"totalItems\":3,\"first\":{\"type\":\"Link\",\"href\":\"http://example.org/collection?page=0\"}}");
         fixes.put("Example 87", "{\"@context\":\"https://www.w3.org/ns/activitystreams\",\"summary\":\"A collection\",\"type\":\"Collection\",\"totalItems\":5,\"last\":{\"type\":\"Link\",\"href\":\"http://example.org/collection?page=1\"}}");
+        //https://github.com/w3c/activitystreams/issues/441
+        fixes.put("Example 60", "{\"@context\":\"https://www.w3.org/ns/activitystreams\",\"type\":\"OrderedCollection\",\"totalItems\":3,\"name\":\"Vacation photos 2016\",\"orderedItems\":[{\"type\":\"Image\",\"id\":\"http://image.example/1\"},{\"type\":\"Tombstone\",\"formerType\":\"Image\",\"id\":\"http://image.example/2\",\"deleted\":\"2016-03-17T00:00:00Z\"},{\"type\":\"Image\",\"id\":\"http://image.example/3\"}]}");
 
         return testExamplesFromW3CTechnicalReport("https://www.w3.org/TR/activitystreams-vocabulary/", fixes);
     }
