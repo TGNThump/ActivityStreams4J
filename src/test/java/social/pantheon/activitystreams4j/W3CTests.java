@@ -48,11 +48,15 @@ public class W3CTests extends AbstractSerdesTest{
     @TestFactory
     Stream<DynamicTest> W3CActivityStreamsCoreExamples() throws IOException {
         Map<String, String> fixes = new HashMap<>();
+        Set<String> ignore = new HashSet<>();
 
         //https://github.com/w3c/activitystreams/issues/510
         fixes.put("Example 2", "{\"@context\":{\"@vocab\":\"https://www.w3.org/ns/activitystreams#\",\"ext\":\"https://canine-extension.example/terms/\",\"@language\":\"en\"},\"summary\":\"A note\",\"type\":\"Note\",\"content\":\"My dog has fleas.\",\"ext:nose\":0,\"ext:smell\":\"terrible\"}");
 
-        return testExamplesFromW3CTechnicalReport("https://www.w3.org/TR/activitystreams-core/", fixes);
+        ignore.add("Example 25");
+        ignore.add("Example 27");
+
+        return testExamplesFromW3CTechnicalReport("https://www.w3.org/TR/activitystreams-core/", fixes, ignore);
     }
 
     @TestFactory
@@ -61,7 +65,11 @@ public class W3CTests extends AbstractSerdesTest{
     }
 
     private Stream<DynamicTest> testExamplesFromW3CTechnicalReport(String baseUrl) throws IOException {
-        return testExamplesFromW3CTechnicalReport(baseUrl, new HashMap<>());
+        return testExamplesFromW3CTechnicalReport(baseUrl, new HashMap<>(), new HashSet<>());
+    }
+
+    private Stream<DynamicTest> testExamplesFromW3CTechnicalReport(String baseUrl, Map<String, String> fixes) throws IOException {
+        return testExamplesFromW3CTechnicalReport(baseUrl, fixes, new HashSet<>());
     }
 
     private void log(Object... objects){
@@ -166,13 +174,16 @@ public class W3CTests extends AbstractSerdesTest{
         return prettyResult.toString().replaceAll("\\s*[a-zA-Z]+=null", "");
     }
 
-    private Stream<DynamicTest> testExamplesFromW3CTechnicalReport(String baseUrl, Map<String, String> fixes) throws IOException {
+    private Stream<DynamicTest> testExamplesFromW3CTechnicalReport(String baseUrl, Map<String, String> fixes, Set<String> ignore) throws IOException {
         Document document = Jsoup.connect(baseUrl).get();
 
         return document.select(".example").stream().map(example -> {
             Element parent = example.parent();
             String id = parent.id();
             String name = example.select(".example-title").text();
+
+            if (ignore.contains(name)) return null;
+
             String json = fixes.getOrDefault(name, example.select(".json").text());
 
             if (json.isEmpty()) return null;
