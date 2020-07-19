@@ -47,7 +47,12 @@ public class W3CTests extends AbstractSerdesTest{
 
     @TestFactory
     Stream<DynamicTest> W3CActivityStreamsCoreExamples() throws IOException {
-        return testExamplesFromW3CTechnicalReport("https://www.w3.org/TR/activitystreams-core/");
+        Map<String, String> fixes = new HashMap<>();
+
+        //https://github.com/w3c/activitystreams/issues/510
+        fixes.put("Example 2", "{\"@context\":{\"@vocab\":\"https://www.w3.org/ns/activitystreams#\",\"ext\":\"https://canine-extension.example/terms/\",\"@language\":\"en\"},\"summary\":\"A note\",\"type\":\"Note\",\"content\":\"My dog has fleas.\",\"ext:nose\":0,\"ext:smell\":\"terrible\"}");
+
+        return testExamplesFromW3CTechnicalReport("https://www.w3.org/TR/activitystreams-core/", fixes);
     }
 
     @TestFactory
