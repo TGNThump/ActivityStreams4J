@@ -1,5 +1,6 @@
 package social.pantheon.activitystreams4j.core;
 
+import cz.cvut.kbss.jopa.model.MultilingualString;
 import cz.cvut.kbss.jopa.model.annotations.Id;
 import cz.cvut.kbss.jopa.model.annotations.OWLClass;
 import cz.cvut.kbss.jopa.model.annotations.OWLDataProperty;
@@ -142,20 +143,16 @@ public class ObjectDTO {
      * The content or textual representation of the Object encoded as a JSON string.
      * By default, the value of content is HTML.
      * The mediaType property can be used in the object to indicate a different content type.
-     *
-     * TODO: The content MAY be expressed using multiple language-tagged values.
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#content")
-    String content;
+    MultilingualString content;
 
     /**
      * A simple, human-readable, plain-text name for the object.
      * HTML markup MUST NOT be included.
-     *
-     * TODO: The name MAY be expressed using multiple language-tagged values.
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#name")
-    String name;
+    MultilingualString name;
 
     /**
      * When the object describes a time-bound resource, such as an audio or video, a meeting, etc, the duration property indicates the object's approximate duration.
@@ -194,11 +191,9 @@ public class ObjectDTO {
 
     /**
      * A natural language summarization of the object encoded as HTML.
-     *
-     * TODO: Multiple language tagged summaries MAY be provided.
      */
     @OWLDataProperty(iri = "https://www.w3.org/ns/activitystreams#summary")
-    String summary;
+    MultilingualString summary;
 
     /**
      * The date and time at which the object was updated
